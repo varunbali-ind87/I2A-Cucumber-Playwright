@@ -6,6 +6,16 @@ target/
 *.iws
 *.iml
 *.ipr
+*.html
+*.js
+*.css
+*.woff
+*.woff2
+*.eot
+*.png
+*.otf
+*.svg
+*.ttf
 
 ### Eclipse ###
 .apt_generated

@@ -20,13 +20,13 @@ public class TestRunner extends AbstractTestNGCucumberTests
 {
 
 	@AfterSuite
-	public void afterSuite(ITestContext context)
+	public void afterSuite()
 	{
 		log.info("Wrapping up the suite..");
 	}
 
 	@BeforeSuite
-	public void beforeSuite(ITestContext context) throws ConfigurationException, IOException
+	public void beforeSuite() throws ConfigurationException, IOException
 	{
 		/*
 		 * Valid values of jobtype = eclipse, jenkins. If below code is anything but

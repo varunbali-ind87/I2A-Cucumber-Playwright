@@ -30,4 +30,16 @@ public class SampleStep
     {
         searchPage.waitForSearchResults();
     }
+
+    @When("the user clicks About Us")
+    public void theUserClicksAboutUs()
+    {
+        homePage.clickFooter("ABOUT US");
+    }
+
+    @Then("he should be taken to the about us page")
+    public void heShouldBeTakenToTheAboutUsPage()
+    {
+        homePage.waitForAboutUsPage();
+    }
 }

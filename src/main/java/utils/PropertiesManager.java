@@ -13,6 +13,10 @@ public class PropertiesManager
     private static final String propertiesFile = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "setup.properties";
     private static final Properties properties = new Properties();
 
+    private PropertiesManager()
+    {
+    }
+
     public static synchronized void readProperties() throws IOException
     {
         try (var reader = new FileReader(propertiesFile))

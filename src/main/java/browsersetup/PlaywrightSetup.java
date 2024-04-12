@@ -1,27 +1,25 @@
 package browsersetup;
 
 import browsercontextsetup.BrowserContextCreator;
-import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.ViewportSize;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Playwright;
 import io.cucumber.java.*;
 import lombok.extern.log4j.Log4j2;
 import utils.PropertiesManager;
 
-import java.awt.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static browsersetup.PlaywrightBase.page;
+import static browsersetup.PlaywrightBase.*;
+
 
 @Log4j2
 public class PlaywrightSetup
 {
 
     private static Playwright playwright;
-    private Browser browser;
     private BrowserContext context;
 
     @BeforeAll
@@ -39,8 +37,10 @@ public class PlaywrightSetup
         playwright = Playwright.create();
         var contextCreator = new BrowserContextCreator();
         context = contextCreator.getBrowserContext(playwright, browserValue);
-        page = context.newPage();
+        var page = context.newPage();
+        PlaywrightBase.setPage(page);
         log.info("{} launched.", browserValue);
+        PlaywrightBase.setScenario(scenario);
     }
 
     @After(order = 1)
@@ -51,7 +51,7 @@ public class PlaywrightSetup
             var simpleFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             var date = new Date();
             var screenshotName = simpleFormat.format(date) + ".png";
-            byte[] bytes = page.screenshot();
+            byte[] bytes = Page().screenshot();
             scenario.attach(bytes, "image/png", screenshotName);
         }
     }
@@ -59,10 +59,14 @@ public class PlaywrightSetup
     @After(order = 0)
     public void closeBrowser()
     {
-        if (context != null && page != null)
+        if (context != null && Page() != null)
         {
             context.close();
             log.info("Browser closed.");
+            removeScenario();
+            log.info("Cleared scenario thread.");
+            removePage();
+            log.info("Cleared page thread.");
         }
     }
 

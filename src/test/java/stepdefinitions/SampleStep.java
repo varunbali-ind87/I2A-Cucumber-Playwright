@@ -42,4 +42,16 @@ public class SampleStep
     {
         homePage.waitForAboutUsPage();
     }
+
+    @When("the user clicks Sign In link")
+    public void theUserClicksSignInLink()
+    {
+        homePage.signIn();
+    }
+
+    @Then("he should be taken to the sign in page")
+    public void heShouldBeTakenToTheSignInPage()
+    {
+        homePage.verifySignInTitle();
+    }
 }

@@ -1,5 +1,7 @@
 package pageobjects;
 
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 import lombok.extern.log4j.Log4j2;
 
 import static browsersetup.PlaywrightBase.Page;
@@ -55,5 +57,16 @@ public class HomePage
         Scenario().log("Our Services is visible.");
         assertThat(Page().getByText("Key Features")).isVisible();
         Scenario().log("Key Features is visible.");
+    }
+
+    public void signIn()
+    {
+        Page().getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Sign in")).click();
+        assertThat(Page().getByText("Welcome back")).isVisible();
+    }
+
+    public void verifySignInTitle()
+    {
+        assertThat(Page()).hasTitle("Insights to Action: Sign Up");
     }
 }

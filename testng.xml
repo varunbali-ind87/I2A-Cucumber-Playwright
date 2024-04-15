@@ -7,4 +7,9 @@
             <class name="runner.TestRunner"/>
         </classes>
     </test>
+    <test name="Rerun Failed scanrios">
+        <classes>
+            <class name="runner.FailedTestRunner"/>
+        </classes>
+    </test>
 </suite>

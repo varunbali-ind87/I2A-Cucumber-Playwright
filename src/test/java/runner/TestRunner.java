@@ -11,38 +11,43 @@ import utils.ExtentPropertiesManager;
 
 import java.io.IOException;
 
-@CucumberOptions(features = { "src/test/resources/features" }, glue = { "browsersetup", "stepdefinitions" },
-		monochrome = true, plugin = { "pretty", "json:target/cucumber.json", "junit:target/cucumber.xml", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
-		tags = "@Test")
+@CucumberOptions(features = {"src/test/resources/features"}, glue = {"browsersetup", "stepdefinitions"},
+        monochrome = true, plugin = {
+		"pretty",
+		"json:target/cucumber.json",
+		"junit:target/cucumber.xml",
+		"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        "rerun:target/failedscenarios.txt"},
+        tags = "@Test")
 
 @Log4j2
 public class TestRunner extends AbstractTestNGCucumberTests
 {
 
-	@AfterSuite
-	public void afterSuite()
-	{
-		log.info("Wrapping up the suite..");
-	}
-
-	@BeforeSuite
-	public void beforeSuite() throws ConfigurationException, IOException
+    @AfterSuite
+    public void afterSuite()
     {
-		/*
-		 * Valid values of jobtype = eclipse, jenkins. If below code is anything but
-		 * jenkins then the below code will not be executed. This is helpful if you want
-		 * to use your IDE If value = jenkins then it will be executed for Jenkins
-		 * environment
-		 */
-		System.setProperty("log4j2.configurationFile", System.getProperty("user.dir") + "src/main/resources/log4j2.xml");
-		log.info("Starting the suite...");
-		ExtentPropertiesManager.updateExtentProperties();
-	}
+        log.info("Wrapping up the suite..");
+    }
 
-	@Override
-	@DataProvider(parallel = true)
-	public Object[][] scenarios()
-	{
-		return super.scenarios();
-	}
+    @BeforeSuite
+    public void beforeSuite() throws ConfigurationException, IOException
+    {
+        /*
+         * Valid values of jobtype = eclipse, jenkins. If below code is anything but
+         * jenkins then the below code will not be executed. This is helpful if you want
+         * to use your IDE If value = jenkins then it will be executed for Jenkins
+         * environment
+         */
+        System.setProperty("log4j2.configurationFile", System.getProperty("user.dir") + "src/main/resources/log4j2.xml");
+        log.info("Starting the suite...");
+        ExtentPropertiesManager.updateExtentProperties();
+    }
+
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios()
+    {
+        return super.scenarios();
+    }
 }

@@ -30,8 +30,7 @@ public class PlaywrightSetup
     }
 
     @Before(order = 0)
-    public void setupBrowser(Scenario scenario)
-    {
+    public void setupBrowser(Scenario scenario) throws IOException {
         String browserValue = PropertiesManager.getBrowser();
         scenario.log("Browser selected: " + browserValue);
         playwright = Playwright.create();

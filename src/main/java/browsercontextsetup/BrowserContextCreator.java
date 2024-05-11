@@ -6,14 +6,18 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.io.FileUtils;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Log4j2
 public class BrowserContextCreator
 {
-    public BrowserContext getBrowserContext(Playwright playwright, String browserValue)
-    {
+    public BrowserContext getBrowserContext(Playwright playwright, String browserValue) throws IOException {
         Browser browser = null;
         var options = new BrowserType.LaunchOptions().setHeadless(false).setDownloadsPath(PlaywrightBase.downloadPath);
         if (browserValue.equalsIgnoreCase("chrome"))
@@ -28,7 +32,11 @@ public class BrowserContextCreator
         int height = (int) screenSize.getHeight();
         log.info("Width = {}, Height = {}", width, height);
 
-        var contextOptions = new Browser.NewContextOptions().setViewportSize(width, height).setAcceptDownloads(true);
+        var videoDirectory = new File(System.getProperty("user.dir") + File.separator + "videos");
+        if (!videoDirectory.exists())
+            FileUtils.forceMkdir(videoDirectory);
+
+        var contextOptions = new Browser.NewContextOptions().setViewportSize(width, height).setAcceptDownloads(true).setRecordVideoDir(Path.of(videoDirectory.getAbsolutePath()));
         return browser.newContext(contextOptions);
     }
 }

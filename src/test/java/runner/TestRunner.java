@@ -7,7 +7,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import utils.ExtentPropertiesManager;
-import utils.PropertiesUpdater;
+import utils.PropertiesManager;
 
 import java.io.IOException;
 
@@ -25,13 +25,13 @@ public class TestRunner extends AbstractTestNGCucumberTests
 {
 
     @AfterTest
-    public void afterSuite()
+    public void afterTest()
     {
         log.info("Wrapping up test..");
     }
 
     @BeforeTest
-    public void beforeSuite(ITestContext context) throws ConfigurationException, IOException
+    public void beforeTest(ITestContext context) throws ConfigurationException, IOException
     {
         /*
          * Valid values of jobtype = eclipse, jenkins. If below code is anything but
@@ -41,7 +41,7 @@ public class TestRunner extends AbstractTestNGCucumberTests
          */
         System.setProperty("log4j2.configurationFile", System.getProperty("user.dir") + "src/main/resources/log4j2.xml");
         if (context.getCurrentXmlTest().getParameter("jobtype").equalsIgnoreCase("jenkins"))
-            PropertiesUpdater.updateAllProperties();
+            PropertiesManager.updateAllProperties();
 
         log.info("Starting the suite...");
         ExtentPropertiesManager.updateExtentProperties();

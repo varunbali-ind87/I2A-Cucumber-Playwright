@@ -5,9 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.*;
 import utils.ExtentPropertiesManager;
 import utils.PropertiesUpdater;
 
@@ -26,13 +24,13 @@ import java.io.IOException;
 public class TestRunner extends AbstractTestNGCucumberTests
 {
 
-    @AfterSuite
+    @AfterTest
     public void afterSuite()
     {
-        log.info("Wrapping up the suite..");
+        log.info("Wrapping up test..");
     }
 
-    @BeforeSuite
+    @BeforeTest
     public void beforeSuite(ITestContext context) throws ConfigurationException, IOException
     {
         /*

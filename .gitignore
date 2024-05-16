@@ -3,6 +3,7 @@ target/
 .idea/
 
 ### IntelliJ IDEA ###
+*.log
 *.iws
 *.iml
 *.ipr
@@ -16,6 +17,7 @@ target/
 *.otf
 *.svg
 *.ttf
+*.webm
 
 ### Eclipse ###
 .apt_generated

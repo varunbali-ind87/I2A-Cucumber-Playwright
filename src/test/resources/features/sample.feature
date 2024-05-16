@@ -12,6 +12,6 @@ Feature: Sample scenarios for Playwright
     When the user clicks About Us
     Then he should be taken to the about us page
 
-    Scenario: Verify the sign in page
-      When the user clicks Sign In link
-      Then he should be taken to the sign in page
+  Scenario: Verify the sign in page
+    When the user clicks Sign In link
+    Then he should be taken to the sign in page

@@ -67,6 +67,6 @@ public class HomePage
 
     public void verifySignInTitle()
     {
-        assertThat(Page()).hasTitle("Insights to Action: Sign Up");
+        assertThat(Page()).hasTitle("Insights to Action: Sign In");
     }
 }

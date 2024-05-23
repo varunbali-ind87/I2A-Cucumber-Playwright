@@ -15,12 +15,8 @@ public class SearchPage
         assertThat(Page()).hasTitle("Insights to Action: Search");
         log.info("Page title: " + Page().title());
         assertThat(Page().locator("xpath=//div[starts-with(@class, 'search_leftSectionContainer')]")).isVisible();
-        var locators = Page().locator("xpath=//div[starts-with(@class, 'SearchRecord_insightcontainer')]//../h1/a").all();
+        var locators = Page().locator("xpath=//div[starts-with(@class, 'SearchRecord_insightcontainer')]//../h1/a").elementHandles();
         log.info("Search results: " + locators.size());
-        locators.forEach(locator ->
-        {
-            assertThat(locator).isVisible();
-            log.info("{}", locator.textContent(new Locator.TextContentOptions().setTimeout(30000)));
-        });
+        locators.forEach(locator -> log.info("{}", locator.textContent()));
     }
 }

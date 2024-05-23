@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -18,7 +19,7 @@ import java.nio.file.Paths;
 public class BrowserContextCreator
 {
     public BrowserContext getBrowserContext(Playwright playwright, String browserValue) throws IOException {
-        Browser browser = null;
+        Browser browser;
         var options = new BrowserType.LaunchOptions().setHeadless(false).setDownloadsPath(PlaywrightBase.downloadPath);
         if (browserValue.equalsIgnoreCase("chrome"))
             browser = playwright.chromium().launch(options);
@@ -27,16 +28,17 @@ public class BrowserContextCreator
         else
             throw new UnsupportedOperationException("Invalid browser specified!");
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
         log.info("Width = {}, Height = {}", width, height);
 
-        var videoDirectory = new File(System.getProperty("user.dir") + File.separator + "videos");
-        if (!videoDirectory.exists())
-            FileUtils.forceMkdir(videoDirectory);
-
-        var contextOptions = new Browser.NewContextOptions().setViewportSize(width, height).setAcceptDownloads(true).setRecordVideoDir(Path.of(videoDirectory.getAbsolutePath()));
+        Path videoDirectory = Paths.get(System.getProperty("user.dir"), "videos");
+        Files.createDirectories(videoDirectory);
+        var contextOptions = new Browser.NewContextOptions()
+                .setViewportSize(width, height)
+                .setAcceptDownloads(true)
+                .setRecordVideoDir(videoDirectory);
         return browser.newContext(contextOptions);
     }
 }

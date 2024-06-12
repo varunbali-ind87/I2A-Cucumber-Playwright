@@ -1,7 +1,5 @@
 package pageobjects;
 
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.assertions.LocatorAssertions;
 import lombok.extern.log4j.Log4j2;
 
 import static browsersetup.PlaywrightBase.Page;

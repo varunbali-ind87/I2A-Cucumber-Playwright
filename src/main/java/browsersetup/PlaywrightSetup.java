@@ -1,7 +1,6 @@
 package browsersetup;
 
 import browsercontextsetup.BrowserContextCreator;
-import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Playwright;
 import io.cucumber.java.*;

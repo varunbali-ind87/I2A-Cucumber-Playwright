@@ -54,4 +54,10 @@ public class SampleStep
     {
         homePage.verifySignInTitle();
     }
+
+    @When("the user visits {string} topic")
+    public void theUserVisitsTopic(String topic)
+    {
+        homePage.clickTopic(topic);
+    }
 }

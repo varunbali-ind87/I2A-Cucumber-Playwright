@@ -8,11 +8,9 @@ import static browsersetup.PlaywrightBase.Page;
 import static browsersetup.PlaywrightBase.Scenario;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-
 @Log4j2
 public class HomePage
 {
-
     private static final String ONETRUST_REJECT_ALL_HANDLER = "#onetrust-reject-all-handler";
 
     public void search(final String keyword)
@@ -68,5 +66,15 @@ public class HomePage
     public void verifySignInTitle()
     {
         assertThat(Page()).hasTitle("Insights to Action: Sign In");
+    }
+
+    public void clickTopic(final String topic)
+    {
+        Page().getByRole(AriaRole.MENUITEM, new Page.GetByRoleOptions().setName("Topics")).locator("a").click();
+        Scenario().log("Expanded Topics menu.");
+        Page().getByTitle(topic, new Page.GetByTitleOptions().setExact(true)).click();
+        Scenario().log("Clicked " + topic + ".");
+        assertThat(Page().locator("#id_topic_heading_title")).hasText(topic);
+        Scenario().log("Verified that " + topic + " is displayed.");
     }
 }

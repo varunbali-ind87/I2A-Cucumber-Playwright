@@ -3,19 +3,19 @@ package utils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.io.FileHandler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 @Log4j2
 public class ExtentPropertiesManager
 {
-	public static final String EXTENT_DESTINATION_FILEPATH;
+	private static final String EXTENT_DESTINATION_FILEPATH;
 	private static final String EXTENT_SOURCE_FILEPATH;
+
 	static
 	{
 		EXTENT_SOURCE_FILEPATH = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources"
@@ -38,16 +38,20 @@ public class ExtentPropertiesManager
 	public static synchronized void updateExtentProperties() throws IOException, ConfigurationException
 	{
 		var config = new PropertiesConfiguration();
-		var layout = config.getLayout();
-		File sourceFile = new File(EXTENT_SOURCE_FILEPATH);
-		var reader = new FileReader(sourceFile);
-		layout.load(config, reader);
+		var fileHandler = new FileHandler(config);
+
+		var srcFile = new File(EXTENT_SOURCE_FILEPATH);
+		if (srcFile.exists())
+		{
+			fileHandler.setFile(srcFile);
+			fileHandler.load(srcFile);
+		}
+
 		config.setProperty("systeminfo.os", SystemUtils.OS_NAME);
 		config.setProperty("systeminfo.version", SystemUtils.OS_VERSION);
-		var writer = new FileWriter(sourceFile);
-		layout.save(config, writer);
-		File destinationFile = new File(EXTENT_DESTINATION_FILEPATH);
-		FileUtils.copyFileToDirectory(sourceFile, destinationFile);
-		log.info("Extent.properties updated successfully.");
+		fileHandler.save();
+
+		File destinationDirectory = new File(EXTENT_DESTINATION_FILEPATH);
+		FileUtils.copyFileToDirectory(srcFile, destinationDirectory);
 	}
 }

@@ -14,8 +14,9 @@ import java.util.Properties;
 @Log4j2
 public class PropertiesManager
 {
-    private static final String propertiesFile = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "setup.properties";
+    private static final String PROPERTIES_FILE = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "setup.properties";
     private static final Properties properties = new Properties();
+    private static final String BROWSER = "browser";
 
     private PropertiesManager()
     {
@@ -28,16 +29,16 @@ public class PropertiesManager
      */
     public static synchronized void readProperties() throws IOException
     {
-        try (var reader = new FileReader(propertiesFile))
+        try (var reader = new FileReader(PROPERTIES_FILE))
         {
             properties.load(reader);
-            log.info("{} read successfully.", propertiesFile);
+            log.info("{} read successfully.", PROPERTIES_FILE);
         }
     }
 
     public static synchronized String getBrowser()
     {
-        return properties.getProperty("browser");
+        return properties.getProperty(BROWSER);
     }
 
     /**
@@ -53,16 +54,16 @@ public class PropertiesManager
 
         // Create a FileHandler using the properties file
         var fileHandler = new FileHandler(config);
-        fileHandler.setFile(new File(propertiesFile));
+        fileHandler.setFile(new File(PROPERTIES_FILE));
 
         // Load the properties file
         fileHandler.load();
 
-        if (StringUtils.isNotBlank(System.getProperty("browser")))
+        if (StringUtils.isNotBlank(System.getProperty(BROWSER)))
         {
-            String property = System.getProperty("browser");
+            String property = System.getProperty(BROWSER);
             log.info("Setting browser to {}", property);
-            config.setProperty("browser", property);
+            config.setProperty(BROWSER, property);
         }
 
         // Save the properties file

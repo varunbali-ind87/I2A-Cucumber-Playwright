@@ -26,13 +26,13 @@ public class PlaywrightSetup
     {
         PropertiesManager.readProperties();
         System.setProperty("log4j2.configurationFile", System.getProperty("user.dir") + "src/main/resources/log4j2.xml");
+        playwright = Playwright.create();
     }
 
     @Before(order = 0)
     public void setupBrowser(Scenario scenario) throws IOException {
         String browserValue = PropertiesManager.getBrowser();
         scenario.log("Browser selected: " + browserValue);
-        playwright = Playwright.create();
         var contextCreator = new BrowserContextCreator();
         context = contextCreator.getBrowserContext(playwright, browserValue);
         var page = context.newPage();

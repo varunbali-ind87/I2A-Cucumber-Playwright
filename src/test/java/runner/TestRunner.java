@@ -17,6 +17,7 @@ import java.io.IOException;
 		"json:target/cucumber.json",
 		"junit:target/cucumber.xml",
 		"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        "scenariolistener.FailedScenarioListener",
         "rerun:target/failedscenarios.txt"},
         tags = "@Test")
 
@@ -40,9 +41,6 @@ public class TestRunner extends AbstractTestNGCucumberTests
          * environment
          */
         System.setProperty("log4j2.configurationFile", System.getProperty("user.dir") + "src/main/resources/log4j2.xml");
-        if (context.getCurrentXmlTest().getParameter("jobtype").equalsIgnoreCase("jenkins"))
-            PropertiesManager.updateAllProperties();
-
         log.info("Starting the suite...");
         ExtentPropertiesManager.updateExtentProperties();
     }

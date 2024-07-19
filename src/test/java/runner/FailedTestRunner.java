@@ -10,6 +10,7 @@ import io.cucumber.testng.CucumberOptions;
                 "json:target/failed-cucumber.json",
                 "junit:target/failed-cucumber.xml",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+                "scenariolistener.FailedScenarioListener"
         },
         tags = "@Test")
 public class FailedTestRunner extends AbstractTestNGCucumberTests
